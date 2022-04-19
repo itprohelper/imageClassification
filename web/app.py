@@ -47,7 +47,37 @@ class Register(Resource):
             "status": 200,
             "msg": "You successfully signed up for this API"
         }
-        return jsonify(retJson) 
+        return jsonify(retJson)
+
+def verify_pw(username, password):
+    if not UserExist(username):
+        return False
+
+    hashed_pw = users.find({
+        "Username": username
+    })[0]["Password"]
+
+    if bcrypt.hashpw(password.encode('utf8'), hashed_pw) == hashed_pw:
+        return True
+    else:
+        return False
+
+def generateReturnDictionary(status, msg):
+    retJson = {
+        "status": status,
+        "msg": msg
+    }
+    return retJson
+
+def verifyCredentials(username, password):
+    if not UserExist(username):
+        return generateReturnDictionary(301, "Invalid Username"), True
+
+    correct_pw = verify_pw(username, password)
+    if not correct_pw:
+        return generateReturnDictionary(302, "Invalid Password"), True
+
+    return None, False 
 
 class Classify(Resource):
     def post(self):
