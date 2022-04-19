@@ -1,4 +1,5 @@
 from distutils.log import error
+from msilib.schema import Class
 from os import urandom
 from flask import Flask, jsonify, request
 from flask_restful import Api, Resource
@@ -116,3 +117,39 @@ class Classify(Resource):
             }
         })
         return retJson
+
+class Refill(Resource):
+    def post(self):
+        postedData = request.get_json()
+
+        username = postedData["username"]
+        password = postedData["admin_pw"]
+        amount   = postedData["amount"]
+
+        #Verify user exists
+        if not UserExist(username):
+            return jsonify ( generateReturnDictionary(301, "Invalid Username") )
+
+        #Manually declare admin pass
+        correct_pw = "abc123"
+
+        #Verify admin pass
+        if not password == correct_pw:
+            return jsonify( generateReturnDictionary(304, "Invalid Administrator Password") )
+
+        users.update({
+            "Username": username
+        }, {
+            "$set":{
+                "Tokens": amount
+            }
+        })
+        return jsonify( generateReturnDictionary(200, "Refilled Success!") )
+
+api.add_resource(Register, '/register')
+api.add_resource(Classify, '/classify')
+api.add_resource(Refill, '/refill')
+
+if __name__=="__main__":
+    app.run(host='0.0.0.0')
+        
