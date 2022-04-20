@@ -1,11 +1,8 @@
-from distutils.log import error
-from msilib.schema import Class
-from os import urandom
 from flask import Flask, jsonify, request
 from flask_restful import Api, Resource
 from pymongo import MongoClient
-import bcrypt
-import requests
+#import bcrypt
+#import requests
 import subprocess
 import json
 
@@ -19,7 +16,7 @@ users = db["Users"]
 def UserExist(username):
     if users.find({"Username":username}).count()==0:
         return False
-    else
+    else:
         return True
 
 class Register(Resource):
