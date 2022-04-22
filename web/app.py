@@ -86,7 +86,7 @@ class Classify(Resource):
 
         username = postedData["username"]
         password = postedData["password"]
-        ur       = postedData["url"]
+        url       = postedData["url"]
 
         retJson, error = verifyCredentials(username, password)
         if error:
