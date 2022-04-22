@@ -1,8 +1,8 @@
 from flask import Flask, jsonify, request
 from flask_restful import Api, Resource
 from pymongo import MongoClient
-#import bcrypt
-#import requests
+import bcrypt
+import requests
 import subprocess
 import json
 
@@ -14,7 +14,8 @@ db = client.ImageRecognition
 users = db["Users"]
 
 def UserExist(username):
-    if users.find({"Username":username}).count()==0:
+    #if users.find({"Username":username}).count()==0:
+    if db.users.count_documents({"Username": username}) == 0:
         return False
     else:
         return True
@@ -35,7 +36,8 @@ class Register(Resource):
             
         hashed_pw = bcrypt.hashpw(password.encode("utf8"), bcrypt.gensalt())
 
-        users.insert({
+        #users.insert({
+        db.users.insert_one({
             "Username": username,
             "Password": password,
             "Tokens": 4
