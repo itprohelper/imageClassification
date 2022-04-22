@@ -33,13 +33,13 @@ class Register(Resource):
                 "msg": "Invalid Username"
             }
             return jsonify(retJson)
-            
+
         hashed_pw = bcrypt.hashpw(password.encode("utf8"), bcrypt.gensalt())
 
         #users.insert({
         db.users.insert_one({
             "Username": username,
-            "Password": password,
+            "Password": hashed_pw,
             "Tokens": 4
         })
 
@@ -53,11 +53,12 @@ def verify_pw(username, password):
     if not UserExist(username):
         return False
 
-    hashed_pw = users.find({
+    #hashed_pw = users.find({
+    hashed_pw = db.users.find({
         "Username": username
     })[0]["Password"]
 
-    if bcrypt.hashpw(password.encode('utf8'), hashed_pw) == hashed_pw:
+    if bcrypt.hashpw(password.encode('utf8'), hashed_pw)==hashed_pw:
         return True
     else:
         return False
@@ -77,7 +78,7 @@ def verifyCredentials(username, password):
     if not correct_pw:
         return generateReturnDictionary(302, "Invalid Password"), True
 
-    return None, False 
+    return None, False
 
 class Classify(Resource):
     def post(self):
@@ -151,4 +152,3 @@ api.add_resource(Refill, '/refill')
 
 if __name__=="__main__":
     app.run(host='0.0.0.0')
-        
