@@ -92,7 +92,7 @@ class Classify(Resource):
         if error:
             return jsonify(retJson)
 
-        tokens = users.find({
+        tokens = db.users.find({
             "Username": username
         })[0]["Tokens"]
 
