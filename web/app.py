@@ -106,8 +106,8 @@ class Classify(Resource):
             proc = subprocess.Popen('python classify_image.py --model_dir=. --image_file=./temp.jpg')
             proc.communicate()[0]
             proc.wait()
-            with open("text.txt") as g:
-                retJson = json.load(g)
+            with open("text.txt") as f:
+                retJson = json.load(f)
 
         users.update({
             "Username": username
