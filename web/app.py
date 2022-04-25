@@ -2,6 +2,8 @@ from flask import Flask, jsonify, request
 from flask_restful import Api, Resource
 from pymongo import MongoClient
 import bcrypt
+import numpy
+import tensorflow as tf
 import requests
 import subprocess
 import json
