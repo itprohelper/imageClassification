@@ -44,6 +44,7 @@ import tarfile
 import numpy as np
 from six.moves import urllib
 import tensorflow as tf
+import json
 
 FLAGS = None
 
@@ -167,7 +168,7 @@ def run_inference_on_image(image):
       score = predictions[node_id]
       retJson[human_string]=score
       print('%s (score = %.5f)' % (human_string, score))
-    with open("text.txt") as f:
+    with open("text.txt", 'w') as f:
         json.dump(retJson, f)
 
 
