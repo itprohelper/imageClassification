@@ -166,8 +166,9 @@ def run_inference_on_image(image):
     for node_id in top_k:
       human_string = node_lookup.id_to_string(node_id)
       score = predictions[node_id]
-      retJson[human_string]=score
+      retJson[human_string]=score.item()
       print('%s (score = %.5f)' % (human_string, score))
+    print(retJson)
     with open("text.txt", 'w') as f:
         json.dump(retJson, f)
 
