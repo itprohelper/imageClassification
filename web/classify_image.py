@@ -162,20 +162,20 @@ def run_inference_on_image(image):
 
     # Creates node ID --> English string lookup.
     node_lookup = NodeLookup()
-    return_json = dict() #added this line
+    #return_json = dict() #added this line
     top_k = predictions.argsort()[-FLAGS.num_top_predictions:][::-1]
-    #retJson = {}
+    retJson = {}
     for node_id in top_k:
       human_string = node_lookup.id_to_string(node_id)
       score = predictions[node_id]
-      return_json[human_string] = str(score) #added this line
-      #retJson[human_string]=score.item()
+      #return_json[human_string] = str(score) #added this line
+      retJson[human_string]=score.item()
       print('%s (score = %.5f)' % (human_string, score))
     #print(return_json)
-    #print(retJson)
+    print(retJson)
     with open("text.txt", 'w') as f:
-        json.dump(return_json, f)
-        #json.dump(retJson, f)
+        #json.dump(return_json, f)
+        json.dump(retJson, f)
 
 
 def maybe_download_and_extract():
