@@ -43,8 +43,10 @@ import tarfile
 
 import numpy as np
 from six.moves import urllib
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+#import tensorflow as tf
 import json
+tf.disable_v2_behavior()
 
 FLAGS = None
 
