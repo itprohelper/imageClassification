@@ -14,15 +14,20 @@
 # ==============================================================================
 
 """Simple image classification with Inception.
+
 Run image classification with Inception trained on ImageNet 2012 Challenge data
 set.
+
 This program creates a graph from a saved GraphDef protocol buffer,
 and runs inference on an input JPEG image. It outputs human readable
 strings of the top 5 predictions along with their probabilities.
+
 Change the --image_file argument to any jpg image to compute a
 classification of that image.
+
 Please see the tutorial and website for a detailed description of how
 to use this script to perform image recognition.
+
 https://tensorflow.org/tutorials/image_recognition/
 """
 
@@ -38,8 +43,10 @@ import tarfile
 
 import numpy as np
 from six.moves import urllib
+import tensorflow.compat.v1 as tf
 import tensorflow as tf
 import json
+#tf.disable_v2_behavior()
 
 FLAGS = None
 
@@ -64,9 +71,11 @@ class NodeLookup(object):
 
   def load(self, label_lookup_path, uid_lookup_path):
     """Loads a human readable English name for each softmax node.
+
     Args:
       label_lookup_path: string UID to integer node ID.
       uid_lookup_path: string UID to human-readable string.
+
     Returns:
       dict from integer node ID to human-readable string.
     """
@@ -123,8 +132,10 @@ def create_graph():
 
 def run_inference_on_image(image):
   """Runs inference on an image.
+
   Args:
     image: Image file name.
+
   Returns:
     Nothing
   """
@@ -151,14 +162,14 @@ def run_inference_on_image(image):
 
     # Creates node ID --> English string lookup.
     node_lookup = NodeLookup()
-
+    
     top_k = predictions.argsort()[-FLAGS.num_top_predictions:][::-1]
     retJson = {}
     for node_id in top_k:
       human_string = node_lookup.id_to_string(node_id)
       score = predictions[node_id]
       retJson[human_string]=score.item()
-      print('%s (score = %.5f)' % (human_string, score))
+      print('%s (score = %.5f)' % (human_string, score))    
     print(retJson)
     with open("text.txt", 'w') as f:
         json.dump(retJson, f)
