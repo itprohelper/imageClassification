@@ -3,5 +3,7 @@ flask-restful
 pymongo
 bcrypt
 numpy
+setuptools>=41.0.0
+tensorflow-text==2.8.*
 tensorflow
 requests
