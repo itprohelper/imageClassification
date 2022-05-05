@@ -14,20 +14,15 @@
 # ==============================================================================
 
 """Simple image classification with Inception.
-
 Run image classification with Inception trained on ImageNet 2012 Challenge data
 set.
-
 This program creates a graph from a saved GraphDef protocol buffer,
 and runs inference on an input JPEG image. It outputs human readable
 strings of the top 5 predictions along with their probabilities.
-
 Change the --image_file argument to any jpg image to compute a
 classification of that image.
-
 Please see the tutorial and website for a detailed description of how
 to use this script to perform image recognition.
-
 https://tensorflow.org/tutorials/image_recognition/
 """
 
@@ -72,11 +67,9 @@ class NodeLookup(object):
 
   def load(self, label_lookup_path, uid_lookup_path):
     """Loads a human readable English name for each softmax node.
-
     Args:
       label_lookup_path: string UID to integer node ID.
       uid_lookup_path: string UID to human-readable string.
-
     Returns:
       dict from integer node ID to human-readable string.
     """
@@ -133,10 +126,8 @@ def create_graph():
 
 def run_inference_on_image(image):
   """Runs inference on an image.
-
   Args:
     image: Image file name.
-
   Returns:
     Nothing
   """
@@ -169,9 +160,10 @@ def run_inference_on_image(image):
     for node_id in top_k:
       human_string = node_lookup.id_to_string(node_id)
       score = predictions[node_id]
-      retJson[human_string]=score
+      retJson[human_string]=score.item()
       print('%s (score = %.5f)' % (human_string, score))
-    with open("text.txt") as f:
+    print(retJson)
+    with open("text.txt", 'w') as f:
         json.dump(retJson, f)
 
 
@@ -232,4 +224,4 @@ if __name__ == '__main__':
       help='Display this many predictions.'
   )
   FLAGS, unparsed = parser.parse_known_args()
-  tf.app.run(main=main, argv=[sys.argv[0]] + unparsed)
+tf.app.run(main=main, argv=[sys.argv[0]] + unparsed)
