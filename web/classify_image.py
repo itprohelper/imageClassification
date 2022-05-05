@@ -44,8 +44,12 @@ import tarfile
 import numpy as np
 from six.moves import urllib
 import tensorflow as tf
+import json
 
 FLAGS = None
+
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 
 # pylint: disable=line-too-long
 DATA_URL = 'http://download.tensorflow.org/models/image/imagenet/inception-2015-12-05.tgz'
